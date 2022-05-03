@@ -1,6 +1,7 @@
 const express = require('express')
 const hbs  = require('express-handlebars')
 const app = express()
+const fortune = require('./lib/fortunes')
 const port = process.env.PORT || 3000
 
 app.engine('handlebars', hbs.engine({
@@ -9,18 +10,13 @@ app.engine('handlebars', hbs.engine({
 
 app.set('view engine', 'handlebars')
 
-const fortunes = [
-    'Победи своите страхове или те ще победят теб.',
-    'На реките са нужни източници',
-    'Не се страхувай от непознатото'
-]
+
 
 
 app.get('/', (req, res) => res.render('home'))
 
 app.get('/about', (req, res) => {
-    const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)]
-    res.render('about', {fortune: randomFortune})
+    res.render('about', {fortune: fortune.getFortune()})
 })
 
 app.use((req, res) => {
